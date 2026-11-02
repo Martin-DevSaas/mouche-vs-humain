@@ -1,0 +1,42 @@
+{
+  "name": "mouche-vs-humain",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.9",
+    "@react-three/fiber": "9.8.1",
+    "@react-three/postprocessing": "3.2.0",
+    "next": "16.2.6",
+    "postprocessing": "6.39.5",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "three": "0.186.1",
+    "zustand": "5.0.15"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "0.186.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tsx": "4.23.14",
+    "typescript": "^5",
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "stats-gl": {
+      "three": "$three"
+    }
+  }
+}

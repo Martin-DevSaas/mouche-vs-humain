@@ -1,0 +1,13 @@
+/node_modules
+/.next/
+/out/
+.DS_Store
+*.tsbuildinfo
+.env*
+.vercel
+next-env.d.ts
+
+# raw connectome downloads and caches (~10 GB), rebuilt by tools/fly-connectome
+/tools/fly-connectome/data/
+__pycache__/
+.venv/
