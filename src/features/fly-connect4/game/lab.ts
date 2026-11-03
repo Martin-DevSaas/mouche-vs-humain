@@ -5,8 +5,8 @@ import { create } from "zustand";
 import type { BrainMeta, NeuronTable } from "../sim/network";
 
 export interface LabPreset {
+  /** Its label, in each language, is in ui/i18n.tsx (lab.presets). */
   id: string;
-  label: string;
   /** Neurons whose main neuropil is one of these ROIs... */
   rois?: string[];
   /** ...or whose cell type is one of these, restricted to a side if given. */
@@ -15,12 +15,12 @@ export interface LabPreset {
 }
 
 export const LAB_PRESETS: LabPreset[] = [
-  { id: "none", label: "Rien (cerveau complet)" },
-  { id: "ol-l", label: "Toute la vision gauche", rois: ["LA(L)", "ME(L)", "AME(L)", "LO(L)", "LOP(L)", "Optic-unspecified(L)"] },
-  { id: "ol-r", label: "Toute la vision droite", rois: ["LA(R)", "ME(R)", "AME(R)", "LO(R)", "LOP(R)", "Optic-unspecified(R)"] },
-  { id: "dna02", label: "Les neurones du virage (DNa02)", types: ["DNa02"] },
-  { id: "dna02-l", label: "Neurone du virage gauche (DNa02)", types: ["DNa02"], side: "L" },
-  { id: "dna02-r", label: "Neurone du virage droit (DNa02)", types: ["DNa02"], side: "R" },
+  { id: "none" },
+  { id: "ol-l", rois: ["LA(L)", "ME(L)", "AME(L)", "LO(L)", "LOP(L)", "Optic-unspecified(L)"] },
+  { id: "ol-r", rois: ["LA(R)", "ME(R)", "AME(R)", "LO(R)", "LOP(R)", "Optic-unspecified(R)"] },
+  { id: "dna02", types: ["DNa02"] },
+  { id: "dna02-l", types: ["DNa02"], side: "L" },
+  { id: "dna02-r", types: ["DNa02"], side: "R" },
 ];
 
 /** Indices of the neurons silenced by a preset. */

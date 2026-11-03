@@ -1,11 +1,21 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useT } from "@/features/fly-connect4/ui/i18n";
 
 // The 3D board, the worker and the brain assets load only on this route, client side.
 const Game = dynamic(() => import("@/features/fly-connect4/ui/Game"), {
   ssr: false,
-  loading: () => (
+  loading: () => <Loading />,
+});
+
+export function ClientEntry() {
+  return <Game />;
+}
+
+function Loading() {
+  const t = useT();
+  return (
     <div
       style={{
         height: "clamp(340px, 62vw, 640px)",
@@ -17,11 +27,7 @@ const Game = dynamic(() => import("@/features/fly-connect4/ui/Game"), {
         color: "var(--text-muted)",
       }}
     >
-      Chargement du plateau…
+      {t.game.loadingBoard}
     </div>
-  ),
-});
-
-export function ClientEntry() {
-  return <Game />;
+  );
 }

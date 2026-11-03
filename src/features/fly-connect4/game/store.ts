@@ -24,8 +24,8 @@ export interface FlyMove {
   decision: Decision;
   /** Per-window summary (heading, DN spike counts); spikes are kept by the brain view. */
   windows: Pick<WindowRecord, "index" | "headingDeg" | "dn" | "omegaDegS">[];
-  /** Lab mode: what was silenced during this move, if anything. */
-  silencedLabel: string | null;
+  /** Lab mode: id of the preset silenced during this move, if any. */
+  silenced: string | null;
 }
 
 interface GameState {
@@ -50,7 +50,7 @@ interface GameState {
   setHover(col: number | null): void;
   humanPlay(col: number): void;
   flyWindow(w: WindowRecord): void;
-  flyPlay(decision: Decision, windows: FlyMove["windows"], silencedLabel?: string | null): void;
+  flyPlay(decision: Decision, windows: FlyMove["windows"], silenced?: string | null): void;
   clearBoard(): void;
   clearFinished(): void;
 }
@@ -149,11 +149,11 @@ export const useGame = create<GameState>((set, get) => {
       set({ flyHeadingDeg: w.headingDeg, flySimulatedMs: (w.toStep * 0.1) | 0 });
     },
 
-    flyPlay(decision, windows, silencedLabel = null) {
+    flyPlay(decision, windows, silenced = null) {
       if (get().status !== "fly") return;
       const moveIndex = get().flyMoves.length;
       set({
-        flyMoves: [...get().flyMoves, { moveIndex, seed: decision.seed, decision, windows, silencedLabel }],
+        flyMoves: [...get().flyMoves, { moveIndex, seed: decision.seed, decision, windows, silenced }],
         lastFallback: decision.fallback,
         flyHeadingDeg: null,
       });

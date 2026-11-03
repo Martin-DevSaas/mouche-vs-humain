@@ -1,25 +1,27 @@
 "use client";
 
 import { useGame } from "../game/store";
+import { useT } from "./i18n";
 import styles from "./fly.module.css";
 
 /** "Pourquoi elle a joué ici": the last move in plain words. */
 export function WhyPanel() {
+  const t = useT();
   const status = useGame((s) => s.status);
   const move = useGame((s) => s.flyMoves[s.flyMoves.length - 1]);
 
   if (status === "fly")
     return (
       <section className={styles.panel}>
-        <h2>Pourquoi Simone a joué ici</h2>
-        <p>Simone réfléchit…</p>
+        <h2>{t.why.title}</h2>
+        <p>{t.why.thinking}</p>
       </section>
     );
   if (!move) {
     return (
       <section className={styles.panel}>
-        <h2>Pourquoi Simone a joué ici</h2>
-        <p>Après le premier coup de Simone, ce panneau explique en une phrase pourquoi elle a choisi cette colonne.</p>
+        <h2>{t.why.title}</h2>
+        <p>{t.why.empty}</p>
       </section>
     );
   }
@@ -32,38 +34,15 @@ export function WhyPanel() {
 
   return (
     <section className={styles.panel}>
-      <h2>Pourquoi Simone a joué ici</h2>
+      <h2>{t.why.title}</h2>
       <p>
-        {Math.abs(turned) >= 0.5 ? (
-          <>
-            Son cerveau l&apos;a fait tourner <strong>vers la {turned > 0 ? "droite" : "gauche"}</strong>, puis elle a
-            joué la colonne qu&apos;elle avait en face d&apos;elle : la <strong>colonne {d.playedColumn + 1}</strong>.
-          </>
-        ) : (
-          <>
-            Son cerveau ne l&apos;a pas fait tourner : elle a joué la colonne qu&apos;elle avait déjà en face
-            d&apos;elle, la <strong>colonne {d.playedColumn + 1}</strong>.
-          </>
-        )}
+        {Math.abs(turned) >= 0.5 ? t.why.turned(turned > 0, d.playedColumn + 1) : t.why.straight(d.playedColumn + 1)}
       </p>
       <p>
-        Pour tourner, une mouche utilise quelques neurones du virage, à gauche et à droite : le côté qui envoie le plus
-        de signaux l&apos;emporte.{" "}
-        {dn.left + dn.right === 0 ? (
-          "Pendant ce coup, aucun signal ne leur est parvenu."
-        ) : (
-          <>
-            Pendant ce coup : <strong>{dn.left}</strong> signaux à gauche, <strong>{dn.right}</strong> à droite.
-          </>
-        )}
+        {t.why.rule} {dn.left + dn.right === 0 ? t.why.noSignal : t.why.signals(dn.left, dn.right)}
       </p>
-      {move.silencedLabel && <p>Expérience en cours : « {move.silencedLabel} » était éteint pendant ce coup.</p>}
-      {d.fallback && (
-        <p>
-          Elle visait la colonne {d.fallback.from + 1}, mais elle était pleine : elle a joué la colonne libre la plus
-          proche.
-        </p>
-      )}
+      {move.silenced && <p>{t.why.silenced(t.lab.presets[move.silenced] ?? move.silenced)}</p>}
+      {d.fallback && <p>{t.why.fallback(d.fallback.from + 1)}</p>}
     </section>
   );
 }

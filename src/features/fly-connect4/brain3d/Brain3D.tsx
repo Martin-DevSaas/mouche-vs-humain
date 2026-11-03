@@ -14,6 +14,7 @@ import { BRAIN_CENTER, BRAIN_SCALE, type BrainData } from "./data";
 import { advancePlayhead, useBrainUi } from "./playback";
 import { useRenderGate } from "../renderGate";
 import { brainRecorder } from "./recorder";
+import { useT } from "../ui/i18n";
 
 export interface TopEdges {
   k: number;
@@ -434,6 +435,7 @@ function DnMarker({ label, position }: { label: string; position: Float32Array }
     if (mat.current) mat.current.color.setRGB(1, 0.3 + Math.min(0.7, rate / 30), 0.4).multiplyScalar(0.8 + Math.min(2.5, rate / 8));
   });
   const [type, side] = label.split("_");
+  const sides = useT().brain.gauge;
   return (
     <group position={[position[0], position[1], position[2]]}>
       <mesh>
@@ -443,7 +445,7 @@ function DnMarker({ label, position }: { label: string; position: Float32Array }
       {/* data y points down: DNa02 labels above the soma, DNa01 below, so they do not overlap */}
       <Html center style={{ pointerEvents: "none" }} position={[0, type === "DNa02" ? -18 : 20, 0]}>
         <span style={{ fontSize: 11, color: "#ffd1da", whiteSpace: "nowrap", fontFamily: "var(--font-geist-mono)" }}>
-          {type} {side === "L" ? "G" : "D"}
+          {type} {side === "L" ? sides.L : sides.R}
         </span>
       </Html>
     </group>
@@ -456,12 +458,14 @@ export default function Brain3D({
   glbUrl,
   light,
   reducedMotion,
+  label,
 }: {
   data: BrainData;
   edges: TopEdges | null;
   glbUrl: string;
   light: boolean;
   reducedMotion: boolean;
+  label: string;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const frameloop = useRenderGate(box);
@@ -472,7 +476,7 @@ export default function Brain3D({
         dpr={light ? 1 : [1, 1.5]}
         camera={{ position: [0, 4, 60], fov: 35, near: 0.5, far: 400 }}
         style={{ width: "100%", height: "100%" }}
-        aria-label="Carte 3D du cerveau de Simone"
+        aria-label={label}
       >
         <color attach="background" args={["#05070b"]} />
         {/* MaleCNS coordinates (µm, y ventral, z posterior) -> frontal view, brain centred */}

@@ -4,21 +4,21 @@ import { SOURCES } from "../brain3d/sources";
 
 export const DATA_CREDITS = [
   {
-    what: "Connectome MaleCNS v1.0 (neurones, synapses, neurotransmetteurs prédits, neuropiles, colonnes optiques)",
+    id: "malecns" as const, // description: ui/i18n.tsx (credits.what)
     who: "Janelia FlyEM, MRC LMB Cambridge, Google Research et al.",
     ref: "Berg S. et al. Sexual dimorphism in the complete connectome of the Drosophila male central nervous system. Cell 189, 5504–5526 (2026). doi:10.1016/j.cell.2026.08.015",
     license: "CC-BY 4.0",
     url: "https://male-cns.janelia.org",
   },
   {
-    what: "Enregistrements de DNa01/DNa02 utilisés pour mesurer le gain de virage",
+    id: "rayshubskiy" as const, // description: ui/i18n.tsx (credits.what)
     who: "Rayshubskiy, Holtz, Bates, Vanderbeck, Serratosa Capdevila, Rockwell & Wilson",
     ref: "Harvard Dataverse, doi:10.7910/DVN/0NCLP1",
     license: "CC0",
     url: "https://doi.org/10.7910/DVN/0NCLP1",
   },
   {
-    what: "Modèle de neurone (paramètres et équations), reproduit en TypeScript",
+    id: "shiu" as const, // description: ui/i18n.tsx (credits.what)
     who: "Shiu, Sterne, Spiller, Franconville et al.",
     ref: "github.com/philshiu/Drosophila_brain_model (commit 91bdd1e)",
     license: "MIT",

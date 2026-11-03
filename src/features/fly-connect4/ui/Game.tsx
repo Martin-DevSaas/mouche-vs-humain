@@ -16,6 +16,7 @@ import { WhyPanel } from "./WhyPanel";
 import { LAB_PRESETS, presetNeurons, useLab } from "../game/lab";
 import { parseColumns, type ColumnsFile } from "../vision/columns";
 import type { Column } from "../vision/eye";
+import { useT } from "./i18n";
 import styles from "./fly.module.css";
 
 const ASSETS = "/fly-brain/v1";
@@ -30,7 +31,7 @@ function useFlyController(client: SimClient | null, data: BrainData | null) {
     busy.current = true;
     const preset = LAB_PRESETS.find((p) => p.id === useLab.getState().presetId) ?? LAB_PRESETS[0];
     const silenced = presetNeurons(preset, data.meta, data.neurons);
-    const silencedLabel = silenced.length ? preset.label : null;
+    const silencedId = silenced.length ? preset.id : null;
     const { cells, gameSeed, flyMoves, pieces } = useGame.getState();
     const seed = moveSeed(gameSeed, flyMoves.length);
     const last = pieces[pieces.length - 1];
@@ -54,7 +55,7 @@ function useFlyController(client: SimClient | null, data: BrainData | null) {
         )
         .then((d) => {
           if (useGame.getState().gameSeed !== gameSeed) return;
-          useGame.getState().flyPlay(d, windows, silencedLabel);
+          useGame.getState().flyPlay(d, windows, silencedId);
         })
         .catch((e) => console.error(e))
         .finally(() => {
@@ -99,6 +100,7 @@ export default function Game() {
   const [brain, setBrain] = useState<{ data: BrainData; edges: TopEdges; columns: Column[] } | null>(null);
   const [progress, setProgress] = useState(0);
   const display = useDisplayMode();
+  const t = useT();
   const s = useGame();
 
   useEffect(() => {
@@ -134,27 +136,27 @@ export default function Game() {
 
   const statusText =
     s.status === "loading"
-      ? "Chargement du cerveau de Simone…"
+      ? t.game.loadingBrain
       : s.status === "human"
-        ? "À vous : cliquez sur une colonne (pions rouges)."
+        ? t.game.yourTurn
         : s.status === "fly"
-          ? `Simone calcule son coup… ${(s.flySimulatedMs / 1000).toFixed(2)} s simulées`
+          ? t.game.thinking(s.flySimulatedMs / 1000)
           : s.status === "clearing"
-            ? "On vide le plateau…"
+            ? t.game.clearing
             : s.outcome.kind === "win"
               ? s.outcome.player === HUMAN
-                ? "Vous avez gagné !"
-                : "Simone a gagné !"
-              : "Match nul.";
+                ? t.game.youWon
+                : t.game.flyWon
+              : t.game.draw;
 
   return (
     <div className={styles.layout}>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div className={styles.panelBox} onPointerDown={() => unlockAudio()}>
           {error ? (
-            <p style={{ padding: 24, color: "var(--text-secondary)" }}>Erreur de chargement : {error}</p>
+            <p style={{ padding: 24, color: "var(--text-secondary)" }}>{t.game.loadError(error)}</p>
           ) : (
-            <Board3D />
+            <Board3D label={t.game.boardLabel} />
           )}
         </div>
 
@@ -163,10 +165,10 @@ export default function Game() {
             {statusText}
           </strong>
           <button style={btn} onClick={() => s.newGame()} disabled={s.status === "loading"}>
-            Nouvelle partie
+            {t.game.newGame}
           </button>
           <button style={btn} onClick={() => s.clearBoard()} disabled={s.status === "loading" || s.status === "fly"}>
-            Vider le plateau
+            {t.game.clearBoard}
           </button>
           <label
             style={{ display: "flex", gap: 6, alignItems: "center", color: "var(--text-secondary)", fontSize: 14 }}
@@ -177,7 +179,7 @@ export default function Game() {
               onChange={(e) => s.newGame(e.target.checked ? FLY : HUMAN)}
               disabled={s.status === "loading"}
             />
-            Simone commence
+            {t.game.flyStarts}
           </label>
           <button
             style={btn}
@@ -187,7 +189,7 @@ export default function Game() {
             }}
             aria-pressed={muted}
           >
-            {muted ? "Son coupé" : "Son"}
+            {muted ? t.game.muted : t.game.sound}
           </button>
         </div>
 
@@ -201,9 +203,7 @@ export default function Game() {
             fontFamily: "var(--font-geist-mono)",
           }}
         >
-          <span>
-            Score — vous {s.score.human} · Simone {s.score.fly} · nuls {s.score.draw}
-          </span>
+          <span>{t.game.score(s.score.human, s.score.fly, s.score.draw)}</span>
         </div>
       </div>
       {brain ? (
@@ -227,7 +227,7 @@ export default function Game() {
             fontSize: 14,
           }}
         >
-          {progress < 1 ? `Téléchargement du connectome… ${Math.round(progress * 100)} %` : "Préparation du cerveau…"}
+          {progress < 1 ? t.game.download(Math.round(progress * 100)) : t.game.preparing}
           <div
             className={styles.progress}
             role="progressbar"

@@ -279,7 +279,7 @@ function CameraRig() {
   );
 }
 
-export default function Board3D() {
+export default function Board3D({ label }: { label: string }) {
   const box = useRef<HTMLDivElement>(null);
   const frameloop = useRenderGate(box);
   return (
@@ -291,7 +291,7 @@ export default function Board3D() {
         camera={{ position: [22, BOARD_CENTER_Y + 10, 60], fov: 32, near: 1, far: 800 }}
         style={{ width: "100%", height: "100%", touchAction: "none" }}
         onPointerMissed={() => useGame.getState().setHover(null)}
-        aria-label="Plateau de Puissance 4 en 3D"
+        aria-label={label}
       >
         {/* Studio backdrop: the same light grey the fly sees behind the board (palette.background). */}
         <color attach="background" args={[palette.background]} />

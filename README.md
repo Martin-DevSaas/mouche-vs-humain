@@ -8,6 +8,10 @@ MaleCNS).
 
 Version en ligne : https://martindevsaas.com/mouche-puissance-4
 
+Le jeu est disponible en français, en anglais et en espagnol (sélecteur en haut de la page).
+
+*English: play Connect Four against Simone, a fly whose moves come only from a simulation of her real brain wiring. The game is available in English; see the tutorial below to run it locally (`npm install`, then `npm run dev`).*
+
 ## Tuto : faire tourner Simone sur votre ordinateur
 
 Environ 10 minutes, sans rien savoir coder. Ça marche sur Windows, Mac et Linux. Le cerveau de Simone est déjà

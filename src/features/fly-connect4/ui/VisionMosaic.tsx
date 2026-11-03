@@ -11,6 +11,8 @@ interface Props {
   /** sampleOmmatidia output: catches[i * 5 + r]. */
   catches: Float32Array | null;
   receptor: Receptor;
+  /** Accessible description of the mosaic. */
+  label: string;
   /** Field shown, degrees. */
   azRange?: number;
   elRange?: number;
@@ -24,6 +26,7 @@ export function VisionMosaic({
   columns,
   catches,
   receptor,
+  label,
   azRange = 55,
   elRange = 38,
   dphiDeg = 4.9,
@@ -85,7 +88,7 @@ export function VisionMosaic({
         borderRadius: 6,
       }}
       role="img"
-      aria-label={`Mosaïque des facettes de l'œil de Simone, photorécepteurs ${receptor}`}
+      aria-label={label}
     />
   );
 }
