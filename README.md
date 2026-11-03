@@ -83,6 +83,6 @@ Projet indépendant, sans lien avec les auteurs ni avec les fabricants de jeux.
 
 ## Licence
 
-Le code est sous licence MIT (voir [LICENSE](LICENSE)) : vous pouvez le réutiliser librement, en gardant la mention
+Le code est sous licence MIT (voir [LICENSE](LICENSE) et [NOTICE](NOTICE)) : vous pouvez le réutiliser librement, en gardant la mention
 de l'auteur. Les fichiers du cerveau (`public/fly-brain/`) viennent du connectome MaleCNS et restent sous licence
 CC-BY 4.0 : si vous les réutilisez, citez ses auteurs.

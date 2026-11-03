@@ -19,15 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-The neuron model in src/features/fly-connect4/sim/ is a TypeScript port of
-github.com/philshiu/Drosophila_brain_model, also under the MIT License:
-Copyright (c) 2023 Philip Shiu and Nico Spiller.
-
-Data: the brain files in public/fly-brain/ are derived from the MaleCNS v1.0
-connectome (Janelia FlyEM, MRC LMB Cambridge, Google Research et al.; Berg S.
-et al., Cell 2026) and are distributed under CC-BY 4.0
-(https://creativecommons.org/licenses/by/4.0/). If you reuse them, credit the
-MaleCNS authors.
